@@ -1,0 +1,20 @@
+{
+    "name": "ernesto/app-salon",
+    "description": "Proyecto de practica en curso con php",
+    "type": "project",
+    "license": "Open",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "./",
+            "Controllers\\": "./controllers",
+            "Models\\": "./models"
+        }
+    },
+    "authors": [
+        {
+            "name": "Luis Ernesto Hernandez Rivera",
+            "email": "contacto@lernesto.net"
+        }
+    ],
+    "require": {}
+}
