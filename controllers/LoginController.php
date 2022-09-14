@@ -21,7 +21,7 @@ class LoginController {
     echo "Recover Password";
   }
 
-  public static function signup(){
-    echo "Signup";
+  public static function signup(Router $router){
+    $router->render('auth/Signup');
   }
 }
