@@ -18,5 +18,6 @@ $router->post('/recover-password', [LoginController::class, 'recoverPassword']);
 
 $router->get('/signup', [LoginController::class, 'signup']);
 $router->post('/signup', [LoginController::class, 'signup']);
+$router->get('/verify', [LoginController::class, 'verify']);
 
 $router->checkRoutes();

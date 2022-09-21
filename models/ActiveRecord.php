@@ -1,5 +1,5 @@
 <?php
-namespace Model;
+namespace Models;
 class ActiveRecord {
 
     // Base DE DATOS
@@ -73,6 +73,7 @@ class ActiveRecord {
     // Sanitizar los datos antes de savelos en la BD
     public function sanitizeAttributes() {
         $attributes = $this->attributes();
+        
         $sanitized = [];
         foreach($attributes as $key => $value ) {
             $sanitized[$key] = self::$db->escape_string($value);
@@ -127,7 +128,6 @@ class ActiveRecord {
     public function create() {
         // Sanitizar los datos
         $attributes = $this->sanitizeAttributes();
-
         // Insertar en la base de datos
         $query = " INSERT INTO " . static::$table . " ( ";
         $query .= join(', ', array_keys($attributes));

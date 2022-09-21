@@ -7,7 +7,8 @@
         "psr-4": {
             "MVC\\": "./",
             "Controllers\\": "./controllers",
-            "Models\\": "./models"
+            "Models\\": "./models",
+            "Class\\": "./class"
         }
     },
     "authors": [
@@ -16,5 +17,7 @@
             "email": "contacto@lernesto.net"
         }
     ],
-    "require": {}
+    "require": {
+        "phpmailer/phpmailer": "^6.6"
+    }
 }
