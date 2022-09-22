@@ -47,7 +47,7 @@ class LoginController {
           $result = $user->save();
           
           if($result){
-            $alerts['succes'][] = "Usuario creado correctamente";
+            header('Location: /message');
           }
         }
       }
@@ -55,6 +55,30 @@ class LoginController {
 
     $router->render('auth/Signup', [
       'user' => $user,
+      'alerts' => $alerts
+    ]);
+  }
+  
+  public static function message(Router $router){
+    $router->render('auth/Message');
+  }
+
+  public static function verify(Router $router){
+    $alerts = [];
+
+    $token = s($_GET['token']);
+    $user = User::where('token', $token);
+
+    if(empty($user)){
+      User::setAlert('errors', 'El token no es válido');
+    } else {
+      $user->token = null;
+      $user->confirmed = 1;
+      $user->save();
+      User::setAlert('succes', 'La cuenta ha sido verificada');
+    }
+    $alerts = User::getAlerts();
+    $router->render('auth/Verify', [
       'alerts' => $alerts
     ]);
   }

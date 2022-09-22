@@ -15,7 +15,7 @@ class ActiveRecord {
         self::$db = $database;
     }
 
-    public static function setAlerta($type, $message) {
+    public static function setAlert($type, $message) {
         static::$alerts[$type][] = $message;
     }
 
@@ -113,6 +113,12 @@ class ActiveRecord {
     // Busca un register por su id
     public static function find($id) {
         $query = "SELECT * FROM " . static::$table  ." WHERE id = ${id}";
+        $result = self::consultSQL($query);
+        return array_shift( $result ) ;
+    }
+
+    public static function where($column, $value) {
+        $query = "SELECT * FROM " . static::$table  ." WHERE ${column} = '${value}'";
         $result = self::consultSQL($query);
         return array_shift( $result ) ;
     }
