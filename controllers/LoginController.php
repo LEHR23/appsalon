@@ -53,11 +53,75 @@ class LoginController {
   }
 
   public static function forgotPassword(Router $router) {
-    $router->render('auth/ForgotPassword');
+
+    $alerts = [];
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+      $auth = new User($_POST);
+      $alerts = $auth->validateEmail();
+
+      if(empty($alerts)){
+        $user = User::where('email', $auth->email);
+
+        if($user){
+          if($user->confirmed === '1'){
+            $user->createToken();
+            $user->save();
+
+            $email = new Email($user->email, $user->name, $user->token);
+            $email->sendEmailInstructions();
+
+            User::setAlert('succes', 'Se ha enviado un correo de recuperación');
+          } else {
+            User::setAlert('errors', 'El usuario no ha confirmado su correo');
+          }
+        } else {
+          User::setAlert('errors', 'El usuario no existe');
+        }
+      }
+
+    }
+
+    $alerts = User::getAlerts();
+    $router->render('auth/ForgotPassword', [
+      'alerts' => $alerts
+    ]);
   }
 
-  public static function recoverPassword(){
-    echo "Recover Password";
+  public static function recoverPassword(Router $router) {
+    $alerts = [];
+    $error = false;
+
+    $token = s($_GET['token']);
+    $user = User::where('token', $token);
+
+    if(empty($user)){
+      User::setAlert('errors', 'El token no es valido');
+      $error = true;
+    }
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+      $auth = new User($_POST);
+      $alerts = $auth->validatePassword($_POST['passwordConfirm']);
+
+      if(empty($alerts)){
+        $user->password = null;
+        $user->password = $auth->password;
+        $user->hashPassword();
+        $user->token = null;
+
+        $result = $user->save();
+        if($result){
+          header('Location: /');
+        }
+      }
+    }
+
+    $alerts = User::getAlerts();
+    $router->render('auth/RecoverPassword', [
+      'alerts' => $alerts,
+      'error' => $error
+    ]);
   }
 
   public static function signup(Router $router){

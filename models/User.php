@@ -66,6 +66,27 @@ class User extends ActiveRecord
         return self::$alerts;
     }
 
+    public function validateEmail(){
+        if(!$this->email){
+            self::$alerts['errors'][] = "Debes ingresar un correo";
+        }
+        return self::$alerts;
+    }
+
+    public function validatePassword($passwordConfirm){
+        if(!$this->password){
+            self::$alerts['errors'][] = "Debes ingresar una contraseña";
+        } elseif(strlen($this->password) < 6){
+            self::$alerts['errors'][] = "La contraseña debe tener al menos 6 caracteres";
+        }
+        if(!$passwordConfirm){
+            self::$alerts['errors'][] = "Debes confirmar la contraseña";
+        } elseif($this->password !== $passwordConfirm){
+            self::$alerts['errors'][] = "Las contraseñas no coinciden";
+        }
+        return self::$alerts;
+    }
+
     public function userExists(){
         $query = "SELECT * FROM " . self::$table . " WHERE email = '" . $this->email . "' LIMIT 1";
         
