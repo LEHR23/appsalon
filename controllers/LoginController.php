@@ -8,7 +8,44 @@ use Class\Email;
 
 class LoginController {
   public static function login(Router $router) {
-    $router->render('auth/Login', []);
+    $alerts = [];
+    $auth = new User;
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $auth = new User($_POST);
+      $alerts = $auth->validateLogin();
+
+      if(empty($alerts)){
+        $user = User::where('email', $auth->email);
+
+        if($user){
+          if($user->validatePasswordAndAcount($auth->password)){
+            session_start();
+
+            $_SESSION['id'] = $user->id;
+            $_SESSION['name'] = $user->name . ' ' . $user->lastName;
+            $_SESSION['email'] = $user->email;
+            $_SESSION['login'] = true;
+
+            if($user->admin === '1'){
+              $_SESSION['admin'] = $user->admin ?? null;
+              header('Location: /admin');
+            } else {
+              header('Location: /date');
+            }
+          }
+        } else {
+          User::setAlert('errors', 'El usuario no existe');
+        }
+      }
+    } else {
+    }
+
+    $alerts = User::getAlerts();
+    $router->render('auth/Login', [
+      'alerts' => $alerts,
+      'auth' => $auth
+    ]);
   }
 
   public static function logout(){

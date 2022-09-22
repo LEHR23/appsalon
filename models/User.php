@@ -56,6 +56,16 @@ class User extends ActiveRecord
         return self::$alerts;
     }
 
+    public function validateLogin(){
+        if(!$this->email){
+            self::$alerts['errors'][] = "Debes ingresar un correo";
+        }
+        if(!$this->password){
+            self::$alerts['errors'][] = "Debes ingresar una contraseña";
+        }
+        return self::$alerts;
+    }
+
     public function userExists(){
         $query = "SELECT * FROM " . self::$table . " WHERE email = '" . $this->email . "' LIMIT 1";
         
@@ -75,14 +85,18 @@ class User extends ActiveRecord
     public function createToken(){
         $this->token = uniqid();
     }
-    
-    public function validateLogin(){
-        if(!$this->email){
-            self::$alerts['errors'][] = "Debes ingresar un correo";
+
+    public function validatePasswordAndAcount($password){
+        $result = password_verify($password, $this->password);
+
+        if($this->confirmed == 0){
+            self::$alerts['errors'][] = "Debes verificar tu cuenta";
+            return false;
+        } elseif(!$result){
+            self::$alerts['errors'][] = "La contraseña es incorrecta";
+            return false;
         }
-        if(!$this->password){
-            self::$alerts['errors'][] = "Debes ingresar una contraseña";
-        }
-        return self::$alerts;
+
+        return true;
     }
 }
