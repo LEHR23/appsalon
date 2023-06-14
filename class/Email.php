@@ -21,11 +21,11 @@ class Email {
 
     $phpmailer = new PHPMailer();
     $phpmailer->isSMTP();
-    $phpmailer->Host = 'smtp.mailtrap.io';
+    $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
     $phpmailer->SMTPAuth = true;
     $phpmailer->Port = 2525;
-    $phpmailer->Username = 'c0fc8a3792c156';
-    $phpmailer->Password = '7daf86af9dd750';
+    $phpmailer->Username = '23a5b63cc9b1ae';
+    $phpmailer->Password = 'ca74144cfa0c88';
 
     $phpmailer->setFrom('cuentas@appsalon.com');
     $phpmailer->addAddress('cuentas@appsalon.com', $this->name);
@@ -48,11 +48,11 @@ class Email {
 
     $phpmailer = new PHPMailer();
     $phpmailer->isSMTP();
-    $phpmailer->Host = 'smtp.mailtrap.io';
+    $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
     $phpmailer->SMTPAuth = true;
     $phpmailer->Port = 2525;
-    $phpmailer->Username = 'c0fc8a3792c156';
-    $phpmailer->Password = '7daf86af9dd750';
+    $phpmailer->Username = '23a5b63cc9b1ae';
+    $phpmailer->Password = 'ca74144cfa0c88';
 
     $phpmailer->setFrom('cuentas@appsalon.com');
     $phpmailer->addAddress('cuentas@appsalon.com', $this->name);

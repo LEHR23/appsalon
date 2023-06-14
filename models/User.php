@@ -4,8 +4,8 @@ namespace Models;
 
 class User extends ActiveRecord
 {
-    protected static $table = 'users';
-    protected static $columnsDB = ['id', 'name', 'lastName', 'email', 'password', 'phone', 'admin', 'confirmed', 'token'];
+    protected static $table = 'usuarios';
+    protected static $columnsDB = ['id', 'nombre', 'apellido', 'correo', 'contrasena', 'telefono', 'admin', 'confirmado', 'token'];
 
     public $id;
     public $name;
@@ -88,7 +88,7 @@ class User extends ActiveRecord
     }
 
     public function userExists(){
-        $query = "SELECT * FROM " . self::$table . " WHERE email = '" . $this->email . "' LIMIT 1";
+        $query = "SELECT * FROM " . self::$table . " WHERE correo = '" . $this->email . "' LIMIT 1";
         
         $result = self::$db->query($query);
 

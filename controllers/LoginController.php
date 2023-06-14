@@ -16,7 +16,7 @@ class LoginController {
       $alerts = $auth->validateLogin();
 
       if(empty($alerts)){
-        $user = User::where('email', $auth->email);
+        $user = User::where('correo', $auth->email);
 
         if($user){
           if($user->validatePasswordAndAcount($auth->password)){
@@ -61,7 +61,7 @@ class LoginController {
       $alerts = $auth->validateEmail();
 
       if(empty($alerts)){
-        $user = User::where('email', $auth->email);
+        $user = User::where('correo', $auth->email);
 
         if($user){
           if($user->confirmed === '1'){
